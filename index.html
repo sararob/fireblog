@@ -1,0 +1,69 @@
+<html>
+<head>
+	<title>Fireblog</title>
+	 <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	 <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+	<script type="text/x-handlebars">
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="brand" href="#">Fireblog</a>
+				<ul class="nav">
+					<li>{{#link-to 'posts.index'}}Posts{{/link-to}}</li>
+					<li><button {{action "login"}}>Login</button></li>
+				</ul>
+			</div>
+		</div>
+		{{outlet}}
+	</script>
+
+
+	<script type="text/x-handlebars" data-template-name="posts">
+		{{#each}}
+			{{#link-to 'post' post_id }} <div class="post_title">{{post_title}}</div>{{/link-to}}
+		{{/each}}
+		<br/>
+
+		{{outlet}}
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="posts/index">
+		<br/>
+		{{#link-to 'posts.new'}}Write a new post{{/link-to}}
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="posts/new">
+		{{input type="text" value=post_title placeholder="Title"}}
+		<br/>
+		{{textarea type="text" value=post_content placeholder="Content"}}
+		<form {{action "addPost" on="submit"}}>
+		<button type=submit>Add</button>
+		</form>
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="post">
+		<div class="post_title">
+			{{post_title}}
+			<br/>
+		</div>
+		<div>By: {{post_author}}</div>
+		<span><em>{{post_date}}</em></span>
+		<br/>
+		<br/>
+		{{post_content}}
+	</script>
+
+
+
+	<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+	<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+	<!--<script src="http://builds.emberjs.com/tags/v1.0.0/ember.js"></script>-->
+	<script src="http://builds.emberjs.com/ember-latest.js"></script>
+	<script src="emberfire-latest.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
