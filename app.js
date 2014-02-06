@@ -12,10 +12,11 @@ App.ApplicationRoute = Ember.Route.extend({
 				console.log(error);
 			} else if (user) {
 				this.controllerFor('application').set('currentUser', user);
+				this.controllerFor('application').set('loggedIn', true);
 				console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
 				usersRef.child(user.displayName).child('imageUrl').set('graph.facebook.com/' + user.username + '/picture');
 			} else {
-		auth.login('facebook');
+				// auth.login('facebook');
 			}
 		}.bind(this));
 
@@ -24,7 +25,9 @@ App.ApplicationRoute = Ember.Route.extend({
 });
 
 App.ApplicationController = Ember.ObjectController.extend({
+	needs: ['application'],
 	currentUser: null,
+	loggedIn: false,
 	actions: {
 		login: function() {
 			this.get('auth').login('facebook');
