@@ -1,7 +1,35 @@
+body {
+	font-family: "Helvetica";
+}
+
 .post_title {
 	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	display: inline-block;
 }
 
 .nav {
 	list-style-type: none;
+}
+
+#all-posts, #new-post-link, .each-post {
+	margin-left: 100px;
+}
+
+#all-posts {
+	margin-top: 50px;
+}
+
+.pic {
+	border-radius: 100px;
+	display: inline;
+	width: 40px;
+	margin-right: 5px;
+}
+
+.post-title-index {
+	display: block;
+	margin: 20px 0px;
 }

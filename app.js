@@ -13,7 +13,7 @@ App.ApplicationRoute = Ember.Route.extend({
 			} else if (user) {
 				this.controllerFor('application').set('currentUser', user);
 				console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
-				usersRef.child(user.displayName);
+				usersRef.child(user.displayName).child('imageUrl').set('graph.facebook.com/' + user.username + '/picture');
 			} else {
 		auth.login('facebook');
 			}
@@ -41,6 +41,8 @@ App.Router.map(function() {
   	this.route('new');
   })
 });
+
+//Post Stuff
 
 App.PostsRoute = Ember.Route.extend({
 	model: function() {
@@ -77,7 +79,8 @@ App.PostsNewController = Ember.ArrayController.extend({
 				post_title: this.get("post_title"),
 				post_content: this.get("post_content"),
 				post_date: today.toDateString(),
-				post_author: this.get('currentUser.displayName')
+				post_author: this.get('currentUser.displayName'),
+				post_author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture'
 			});
 
 			var userPostRef = usersRef.child(this.get('currentUser.displayName')).child('posts').push();
@@ -105,5 +108,7 @@ App.PostRoute = Ember.Route.extend({
   	controller.set('model', model);
   }
 });
+
+//Comment stuff
 
 

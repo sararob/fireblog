@@ -21,9 +21,15 @@
 
 
 	<script type="text/x-handlebars" data-template-name="posts">
-		{{#each}}
-			{{#link-to 'post' post_id }} <div class="post_title">{{post_title}}</div>{{/link-to}}
-		{{/each}}
+
+		<div id="all-posts">
+			{{#each}}
+			<div class="post-title-index">
+				<img {{bind-attr src="post_author_pic"}} class="pic"/>
+				{{#link-to 'post' post_id }} <div class="post_title">{{post_title}}</div>{{/link-to}}
+				{{/each}}
+			</div>
+		</div>
 		<br/>
 
 		{{outlet}}
@@ -31,7 +37,8 @@
 
 	<script type="text/x-handlebars" data-template-name="posts/index">
 		<br/>
-		{{#link-to 'posts.new'}}Write a new post{{/link-to}}
+		<div id="new-post-link">{{#link-to 'posts.new'}}Write a new post{{/link-to}}
+		</div>
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="posts/new">
@@ -44,15 +51,18 @@
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="post">
+		<div class="each-post">
 		<div class="post_title">
+		<img {{bind-attr src="post_author_pic"}} class="pic"/>
 			{{post_title}}
 			<br/>
 		</div>
-		<div>By: {{post_author}}</div>
+		<div>{{post_author}}</div>
 		<span><em>{{post_date}}</em></span>
 		<br/>
 		<br/>
 		{{post_content}}
+		</div>
 	</script>
 
 
