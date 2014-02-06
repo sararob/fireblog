@@ -25,10 +25,17 @@
 		<div id="all-posts">
 			{{#each}}
 			<div class="post-title-index">
-				<img {{bind-attr src="post_author_pic"}} class="pic"/>
+				<div id="left-sidebar">
+					<img {{bind-attr src="post_author_pic"}} class="pic"/>
+					<div id="index-date">{{post_date}}</div>
+				</div>
+				<div class="post-preview">
 				{{#link-to 'post' post_id }} <div class="post_title">{{post_title}}</div>{{/link-to}}
-				{{/each}}
+					<div id="subtitle">{{post_subtitle}}</div>
+				</div>
 			</div>
+				{{/each}}
+
 		</div>
 		<br/>
 
@@ -42,26 +49,33 @@
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="posts/new">
-		{{input type="text" value=post_title placeholder="Title"}}
-		<br/>
-		{{textarea type="text" value=post_content placeholder="Content"}}
-		<form {{action "addPost" on="submit"}}>
-		<button type=submit>Add</button>
-		</form>
+		<div id="new-blog">
+			{{input type="text" value=post_title placeholder="Title"}}
+			<br/>
+			{{input type="text" value=post_subtitle placeholder="Subtitle"}}
+			<br/>
+			{{textarea type="text" value=post_content placeholder="Content" id="blog-input"}}
+			<form {{action "addPost" on="submit"}}>
+			<button type=submit>Add</button>
+			</form>
+		</div>
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="post">
 		<div class="each-post">
-		<div class="post_title">
-		<img {{bind-attr src="post_author_pic"}} class="pic"/>
-			{{post_title}}
+			<div class="post_header">
+				<img {{bind-attr src="post_author_pic"}} id="post-pic"/>
+				<div id="author">{{post_author}}</div>
+				<span>{{post_date}}</span>
+				<br/>
+
+			</div>
+
+
 			<br/>
-		</div>
-		<div>{{post_author}}</div>
-		<span><em>{{post_date}}</em></span>
-		<br/>
-		<br/>
-		{{post_content}}
+			<div id="title">{{post_title}}</div>
+			<br/>
+			<div id="content">{{post_content}}</div>
 		</div>
 	</script>
 

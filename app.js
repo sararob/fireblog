@@ -77,6 +77,7 @@ App.PostsNewController = Ember.ArrayController.extend({
 			newPost.setProperties({
 				post_id: newPostRef.name(),
 				post_title: this.get("post_title"),
+				post_subtitle: this.get("post_subtitle"),
 				post_content: this.get("post_content"),
 				post_date: today.toDateString(),
 				post_author: this.get('currentUser.displayName'),
@@ -89,11 +90,13 @@ App.PostsNewController = Ember.ArrayController.extend({
 				post_id: newPostRef.name(),
 				post_title: this.get("post_title"),
 				post_content: this.get("post_content"),
+				post_subtitle: this.get("post_subtitle"),
 				post_date: today.toDateString()
 			});
 
 			this.set("post_title", null);
 			this.set("post_content", null);
+			this.set("post_subtitle", null);
 		}
 	}
 });

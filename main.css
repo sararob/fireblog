@@ -2,12 +2,29 @@ body {
 	font-family: "Helvetica";
 }
 
-.post_title {
-	font-weight: bold;
-	font-size: 20px;
+.post_header {
 	margin-bottom: 10px;
 	margin-top: 10px;
 	display: inline-block;
+	width: 600px;
+	text-align: center;
+}
+
+#author {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+#title {
+	font-size: 40px;
+	line-height: 48px;
+	margin: 10px 0px;
+}
+
+#content {
+	font-size: 18px;
+	line-height: 28px;
+	margin-bottom: 20px;
 }
 
 .nav {
@@ -22,14 +39,59 @@ body {
 	margin-top: 50px;
 }
 
+#left-sidebar {
+	text-align: center;
+	width: 100px;
+	display: inline-block;
+}
+
+.post-preview {
+	width: 400px;
+	float: right;
+}
+
+.post_title {
+	font-size: 24px;
+	color: black;
+	font-weight: bold;
+	margin-left: -620px;
+	margin-top: 12px;
+}
+
+#subtitle {
+	margin-left: -620px;
+	margin-top: 8px;
+}
+
+#index-date {
+	font-size: 12px;
+	margin-top: 7px;
+	color: grey;
+}
+
 .pic {
 	border-radius: 100px;
-	display: inline;
-	width: 40px;
+	width: 50px;
 	margin-right: 5px;
 }
 
 .post-title-index {
 	display: block;
-	margin: 20px 0px;
+	margin: 40px 0px;
+}
+
+#blog-input {
+	width: 550px;
+	height: 200px;
+	margin: 20px 0px 20px 0px;
+}
+
+#new-blog {
+	margin-left: 100px;
+}
+
+#post-pic {
+	text-align: center;
+	border-radius: 100px;
+	width: 65px;
 }
