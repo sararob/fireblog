@@ -3,6 +3,7 @@ App = Ember.Application.create();
 var ref = new Firebase("https://emberfire-blog.firebaseio.com/");
 var postsRef = "https://emberfire-blog.firebaseio.com/posts/";
 var usersRef = ref.child("users");
+var commentsRef = ref.child("comments");
 //Firebase Simple Login with Facebook
 
 App.ApplicationRoute = Ember.Route.extend({
@@ -16,7 +17,7 @@ App.ApplicationRoute = Ember.Route.extend({
 				console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
 				usersRef.child(user.displayName).child('imageUrl').set('graph.facebook.com/' + user.username + '/picture');
 			} else {
-				// auth.login('facebook');
+				auth.login('facebook');
 			}
 		}.bind(this));
 
@@ -39,10 +40,11 @@ App.Router.map(function() {
   this.resource('posts', { path: '/posts' }, function() {
     this.route('new');
   });
-  this.resource('post', { path: '/post/:post_id' });
-  this.resource('comments', { path: '/comments' }, function() {
-  	this.route('new');
-  })
+  this.resource('post', { path: '/post/:post_id' }, function() {
+  	this.resource('comments', function() {
+  		this.route('new');
+  	})
+  });
 });
 
 //Post Stuff
@@ -64,6 +66,10 @@ App.PostsNewRoute = Ember.Route.extend({
 	renderTemplate: function() {
 		this.render('posts/new');
 	}
+});
+
+App.PostsIndexController = Ember.ArrayController.extend({
+	needs: ['application']
 });
 
 App.PostsNewController = Ember.ArrayController.extend({
@@ -115,6 +121,45 @@ App.PostRoute = Ember.Route.extend({
   }
 });
 
-//Comment stuff
+//Comments 
+
+App.CommentsNewRoute = Ember.Route.extend({
+	model: function(params) {
+		post = this.modelFor("post");
+	}
+});
+
+
+App.CommentsIndexController = Ember.ArrayController.extend({
+	model: function() {
+		return EmberFire.Array.create({
+			ref: new Firebase("https://emberfire-blog.firebaseio.com/comments")
+		});
+	}
+});
+
+App.CommentsNewController = Ember.ArrayController.extend({
+	needs: ['application'],
+	currentUser: Ember.computed.alias('controllers.application.currentUser'),
+	actions: {
+		addComment: function() {
+			var newCommentRef = commentsRef.push();
+			var newComment = EmberFire.Object.create({ ref: newCommentRef });
+			newComment.setProperties({
+				comment_id: newCommentRef.name(),
+				comment_content: this.get("comment_content"),
+				post_id: post.content.post_id,
+				user: this.get('currentUser')
+			});
+
+			ref.child("posts").child(post.content.post_id).child("comments").push({
+				comment_id: newCommentRef.name(),
+				comment_content: this.get("comment_content"),
+				user: this.get('currentUser')
+			});
+		}
+	}
+});
+
 
 

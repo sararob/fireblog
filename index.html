@@ -46,8 +46,10 @@
 
 	<script type="text/x-handlebars" data-template-name="posts/index">
 		<br/>
+		{{#if controllers.application.loggedIn}}
 		<div id="new-post-link">{{#link-to 'posts.new'}}Write a new post{{/link-to}}
 		</div>
+		{{/if}}
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="posts/new">
@@ -78,8 +80,31 @@
 			<div id="title">{{post_title}}</div>
 			<br/>
 			<div id="content">{{post_content}}</div>
+			<br/>
+			{{#link-to 'comments'}}Comments{{/link-to}}
+			<br/>
+			{{#each comment in comments}}
+				{{comment}}
+			{{/each}}
 		</div>
+		{{outlet}}
 	</script>
+
+	<script type="text/x-handlebars" data-template-name="comments">
+		{{outlet}}
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="comments/index">
+		{{#link-to 'comments.new'}}Add a new comment{{/link-to}}
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="comments/new">
+		{{textarea type="text" value=comment_content placeholder="Your comment here..."}}
+		<form {{action "addComment" on="submit"}}>
+			<button type=submit>Add Comment</button>
+		</form>
+	</script>
+
 
 
 
@@ -88,8 +113,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
 	<!--<script src="http://builds.emberjs.com/tags/v1.0.0/ember.js"></script>-->
-	<script src="http://builds.emberjs.com/ember-latest.js"></script>
+	<script src="ember-latest.js"></script>
 	<script src="emberfire-latest.js"></script>
+	<script src="ember-data.js"></script>
 	<script src="app.js"></script>
+
+
 </body>
 </html>
