@@ -91,7 +91,7 @@ App.PostsNewController = Ember.ArrayController.extend({
 				post_content: this.get("post_content"),
 				post_date: today.toDateString(),
 				post_author: this.get('currentUser.displayName'),
-				post_author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture'
+				post_author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture'
 			});
 
 			var userPostRef = usersRef.child(this.get('currentUser.displayName')).child('posts').push();
@@ -133,7 +133,36 @@ App.PostController = Ember.ObjectController.extend({
 		}
 		parse_comments(comment_data);
 		return arr;
-	}.property('model.content.comments') 
+	}.property('model.content.comments'),
+		needs: ['application'],
+	currentUser: Ember.computed.alias('controllers.application.currentUser'),
+	actions: {
+		addComment: function() {
+			var newCommentRef = commentsRef.push();
+			var newComment = EmberFire.Object.create({ ref: newCommentRef });
+			// console.log(this.get("currentUser"));
+			newComment.setProperties({
+				comment_id: newCommentRef.name(),
+				comment_content: this.get("comment_content"),
+				post_id: post.content.post_id,
+				author_name: this.get("currentUser.displayName"),
+				author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
+				user: this.get('currentUser'),
+				comment_date: (new Date()).toDateString()
+			});
+
+			ref.child("posts").child(post.content.post_id).child("comments").push({
+				comment_id: newCommentRef.name(),
+				comment_content: this.get("comment_content"),
+				post_id: post.content.post_id,
+				author_name: this.get("currentUser.displayName"),
+				author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
+				comment_date: (new Date()).toDateString()
+			});
+
+			this.set("comment_content", null);
+		}
+	} 
 });
 
 //Comments 
@@ -154,35 +183,7 @@ App.CommentsIndexRoute = Ember.Route.extend({
 });
 
 App.CommentsNewController = Ember.ArrayController.extend({
-	needs: ['application'],
-	currentUser: Ember.computed.alias('controllers.application.currentUser'),
-	actions: {
-		addComment: function() {
-			var newCommentRef = commentsRef.push();
-			var newComment = EmberFire.Object.create({ ref: newCommentRef });
-			// console.log(this.get("currentUser"));
-			newComment.setProperties({
-				comment_id: newCommentRef.name(),
-				comment_content: this.get("comment_content"),
-				post_id: post.content.post_id,
-				author_name: this.get("currentUser.displayName"),
-				author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
-				user: this.get('currentUser'),
-				comment_date: (new Date()).toDateString()
-			});
 
-			ref.child("posts").child(post.content.post_id).child("comments").push({
-				comment_id: newCommentRef.name(),
-				comment_content: this.get("comment_content"),
-				post_id: post.content.post_id,
-				author_name: this.get("currentUser.displayName"),
-				author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
-				comment_date: (new Date()).toDateString()
-			});
-
-			this.set("comment_content", null);
-		}
-	}
 });
 
 

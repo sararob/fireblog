@@ -100,9 +100,13 @@ body {
 	width: 65px;
 }
 
+#new-post-break {
+	margin-left: 100px;
+}
+
 /* Comments */
 
-#comment-break {
+.break {
 	width: 700px;
 }
 
@@ -112,7 +116,6 @@ body {
 
 #comment-form {
 	margin-top: 15px;
-	margin-left: 100px;
 }
 
 #comment-pic {
@@ -139,10 +142,15 @@ body {
 #name {
 	margin-right: 7px;
 	font-weight: bold;
+	color: #7db500;
 }
 
 #comment-text {
 	margin-left: 46px;
 	margin-top: 10px;
 	font-size: 15.5px;
+}
+
+#comment-textarea {
+	width: 270px;
 }

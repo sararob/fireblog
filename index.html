@@ -2,7 +2,10 @@
 <head>
 	<title>Fireblog</title>
 	 <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	 <link rel="stylesheet" href="main.css">
+	 <link rel="stylesheet" href="buttons/css/buttons.css">
+
 </head>
 <body>
 
@@ -47,7 +50,8 @@
 	<script type="text/x-handlebars" data-template-name="posts/index">
 		<br/>
 		{{#if controllers.application.loggedIn}}
-		<div id="new-post-link">{{#link-to 'posts.new'}}Write a new post{{/link-to}}
+		<hr class="break" id="new-post-break"/>
+		<div id="new-post-link">{{#link-to 'posts.new' classNames="button button-rounded button-flat-primary"}}New Post{{/link-to}}
 		</div>
 		{{/if}}
 	</script>
@@ -60,7 +64,7 @@
 			<br/>
 			{{textarea type="text" value=post_content placeholder="Content" id="blog-input"}}
 			<form {{action "addPost" on="submit"}}>
-			<button type=submit>Add</button>
+			<button type=submit class="button button-rounded button-flat-primary">Add</button>
 			</form>
 		</div>
 	</script>
@@ -81,7 +85,7 @@
 			<br/>
 			<div id="content">{{post_content}}</div>
 			<br/>
-			<hr id="comment-break" />
+			<hr class="break" />
 			<br/>
 			{{#each comment_data in comments}}
 				<div id="each-comment">
@@ -97,35 +101,17 @@
 				<br/>
 			{{/each}}
 			<br/>
-			<div id="new-comment-link">
-			{{#link-to 'comments.new'}}Add a new comment{{/link-to}}
-			</div>
-		</div>
-		{{outlet}}
-	</script>
-
-	<script type="text/x-handlebars" data-template-name="comments">
-		{{outlet}}
-	</script>
-
-	<script type="text/x-handlebars" data-template-name="comments/index">
-
-	</script>
-
-	<script type="text/x-handlebars" data-template-name="comments/new">
-		<div id="comment-form">
-			{{textarea type="text" value=comment_content placeholder="Your comment here..."}}
+					<div id="comment-form">
+			{{textarea type="text" value=comment_content placeholder="Your comment here..." id="comment-textarea"}}
 			<br/>
 			<br/>
 			<form {{action "addComment" on="submit"}}>
-				<button type=submit>Add Comment</button>
+				<button type=submit class="button button-rounded button-flat-primary">Add Comment</button>
 			</form>
 		</div>
+		</div>
+		{{outlet}}
 	</script>
-
-
-
-
 
 	<script src="https://cdn.firebase.com/v0/firebase.js"></script>
 	<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
