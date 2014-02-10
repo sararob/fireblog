@@ -15,9 +15,6 @@
 				<a class="brand" href="#">Fireblog</a>
 				<ul class="nav">
 					<li>{{#link-to 'posts.index'}}Posts{{/link-to}}</li>
-{{!-- 					{{#unless controllers.application.loggedIn}}
-					<li><button {{action "login"}}>Login</button></li>
-					{{/unless}} --}}
 				</ul>
 			</div>
 		</div>
@@ -49,11 +46,9 @@
 
 	<script type="text/x-handlebars" data-template-name="posts/index">
 		<br/>
-		{{#if controllers.application.loggedIn}}
 		<hr class="break" id="new-post-break"/>
 		<div id="new-post-link">{{#link-to 'posts.new' classNames="button button-rounded button-flat-primary"}}New Post{{/link-to}}
 		</div>
-		{{/if}}
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="posts/new">
