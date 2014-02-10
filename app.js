@@ -25,6 +25,12 @@ App.ApplicationRoute = Ember.Route.extend({
 	}
 });
 
+App.IndexRoute = Ember.Route.extend({
+	redirect: function() {
+		this.transitionTo('posts');
+	}
+});
+
 App.ApplicationController = Ember.ObjectController.extend({
 	needs: ['application'],
 	currentUser: null,
