@@ -4,7 +4,7 @@ var ref = new Firebase("https://emberfire-blog.firebaseio.com/");
 var postsRef = "https://emberfire-blog.firebaseio.com/posts/";
 var usersRef = ref.child("users");
 var commentsRef = ref.child("comments");
-//Firebase Simple Login with Facebook
+
 
 App.ApplicationRoute = Ember.Route.extend({
 	activate: function() {
@@ -57,6 +57,8 @@ App.PostsRoute = Ember.Route.extend({
 	}
 });
 
+
+
 App.PostsNewRoute = Ember.Route.extend({
 	model: function() {
 		return EmberFire.Array.create({
@@ -82,7 +84,6 @@ App.PostsNewController = Ember.ArrayController.extend({
 
 			var newPost = EmberFire.Object.create({ ref: newPostRef });
 
-			console.log(this.get('currentUser'));
 			newPost.setProperties({
 				post_id: newPostRef.name(),
 				post_title: this.get("post_title"),
@@ -121,6 +122,20 @@ App.PostRoute = Ember.Route.extend({
   }
 });
 
+App.PostController = Ember.ObjectController.extend({
+	comments: function() {
+		var comment_data = this.get('model.content.comments');
+		var arr = [];
+		function parse_comments(comment_data) {
+			for (var comment in comment_data) {
+				arr.push({comment_content: comment_data[comment]['comment_content'], author_name: comment_data[comment]['author_name'], author_pic: comment_data[comment]['author_pic'], comment_date: comment_data[comment]['comment_date']});
+			}
+		}
+		parse_comments(comment_data);
+		return arr;
+	}.property('model.content.comments') 
+});
+
 //Comments 
 
 App.CommentsNewRoute = Ember.Route.extend({
@@ -130,8 +145,8 @@ App.CommentsNewRoute = Ember.Route.extend({
 });
 
 
-App.CommentsIndexController = Ember.ArrayController.extend({
-	model: function() {
+App.CommentsIndexRoute = Ember.Route.extend({
+	model: function(params) {
 		return EmberFire.Array.create({
 			ref: new Firebase("https://emberfire-blog.firebaseio.com/comments")
 		});
@@ -145,18 +160,27 @@ App.CommentsNewController = Ember.ArrayController.extend({
 		addComment: function() {
 			var newCommentRef = commentsRef.push();
 			var newComment = EmberFire.Object.create({ ref: newCommentRef });
+			// console.log(this.get("currentUser"));
 			newComment.setProperties({
 				comment_id: newCommentRef.name(),
 				comment_content: this.get("comment_content"),
 				post_id: post.content.post_id,
-				user: this.get('currentUser')
+				author_name: this.get("currentUser.displayName"),
+				author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
+				user: this.get('currentUser'),
+				comment_date: (new Date()).toDateString()
 			});
 
 			ref.child("posts").child(post.content.post_id).child("comments").push({
 				comment_id: newCommentRef.name(),
 				comment_content: this.get("comment_content"),
-				user: this.get('currentUser')
+				post_id: post.content.post_id,
+				author_name: this.get("currentUser.displayName"),
+				author_pic: 'http://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
+				comment_date: (new Date()).toDateString()
 			});
+
+			this.set("comment_content", null);
 		}
 	}
 });

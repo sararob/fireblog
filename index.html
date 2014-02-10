@@ -36,7 +36,7 @@
 					<div id="subtitle">{{post_subtitle}}</div>
 				</div>
 			</div>
-				{{/each}}
+			{{/each}}
 
 		</div>
 		<br/>
@@ -81,11 +81,25 @@
 			<br/>
 			<div id="content">{{post_content}}</div>
 			<br/>
-			{{#link-to 'comments'}}Comments{{/link-to}}
+			<hr id="comment-break" />
 			<br/>
-			{{#each comment in comments}}
-				{{comment}}
+			{{#each comment_data in comments}}
+				<div id="each-comment">
+					<img {{bind-attr src="comment_data.author_pic"}} id="comment-pic"/>
+					<div id="comment-body">
+						<div id="comment-headline">
+							<span id="name">{{comment_data.author_name}}</span> &#8226;
+							<span id="date">{{comment_data.comment_date}}</span>
+						</div>
+					<div id="comment-text">{{comment_data.comment_content}}</div>
+					</div>
+				</div>
+				<br/>
 			{{/each}}
+			<br/>
+			<div id="new-comment-link">
+			{{#link-to 'comments.new'}}Add a new comment{{/link-to}}
+			</div>
 		</div>
 		{{outlet}}
 	</script>
@@ -95,15 +109,20 @@
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="comments/index">
-		{{#link-to 'comments.new'}}Add a new comment{{/link-to}}
+
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="comments/new">
-		{{textarea type="text" value=comment_content placeholder="Your comment here..."}}
-		<form {{action "addComment" on="submit"}}>
-			<button type=submit>Add Comment</button>
-		</form>
+		<div id="comment-form">
+			{{textarea type="text" value=comment_content placeholder="Your comment here..."}}
+			<br/>
+			<br/>
+			<form {{action "addComment" on="submit"}}>
+				<button type=submit>Add Comment</button>
+			</form>
+		</div>
 	</script>
+
 
 
 
