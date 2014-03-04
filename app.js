@@ -140,7 +140,7 @@ App.PostController = Ember.ObjectController.extend({
 		parse_comments(comment_data);
 		return arr;
 	}.property('model.content.comments'),
-		needs: ['application'],
+	needs: ['application'],
 	currentUser: Ember.computed.alias('controllers.application.currentUser'),
 	actions: {
 		addComment: function() {
@@ -150,17 +150,17 @@ App.PostController = Ember.ObjectController.extend({
 			newComment.setProperties({
 				comment_id: newCommentRef.name(),
 				comment_content: this.get("comment_content"),
-				post_id: post.content.post_id,
+				post_id: this.get("post_id"),
 				author_name: this.get("currentUser.displayName"),
 				author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
 				user: this.get('currentUser'),
 				comment_date: (new Date()).toDateString()
 			});
 
-			ref.child("posts").child(post.content.post_id).child("comments").push({
+			ref.child("posts").child(this.get("post_id")).child("comments").push({
 				comment_id: newCommentRef.name(),
 				comment_content: this.get("comment_content"),
-				post_id: post.content.post_id,
+				post_id: this.get("post_id"),
 				author_name: this.get("currentUser.displayName"),
 				author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture',
 				comment_date: (new Date()).toDateString()
