@@ -99,7 +99,6 @@ App.PostsNewController = Ember.ArrayController.extend({
 				post_author: this.get('currentUser.displayName'),
 				post_author_pic: 'https://graph.facebook.com/' + this.get('currentUser.username') + '/picture'
 			});
-
 			var userPostRef = usersRef.child(this.get('currentUser.displayName')).child('posts').push();
 			var newUserPost = EmberFire.Object.create({ ref: userPostRef });
 			newUserPost.setProperties({
